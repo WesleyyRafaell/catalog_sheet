@@ -1,6 +1,7 @@
 export interface IFormProps {
   name?: string;
   title?: string;
+  subtitle?: string;
   edition?: string;
   place_of_publication?: string;
   publisher_name?: string;

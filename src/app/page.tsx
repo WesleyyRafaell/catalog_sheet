@@ -74,6 +74,18 @@ export default function Home () {
                         render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
                     </div>
                     <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='subtitle'>Subtítulo da obra</Label>
+                      <Input
+                        id='subtitle'
+                        type='text'
+                        {...register('subtitle')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='title'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
                       <Label htmlFor='edition'>Edição</Label>
                       <Input
                         id='edition'

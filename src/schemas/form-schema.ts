@@ -11,6 +11,11 @@ export const formSchema = z.object({
         .min(1, {
           message: 'Campo obrigátorio',
         }),
+  subtitle:
+      z.string({ required_error: 'campo obrigátorio' })
+        .min(1, {
+          message: 'Campo obrigátorio',
+        }),
   edition:
       z.string({ required_error: 'campo obrigátorio' })
         .min(1, {

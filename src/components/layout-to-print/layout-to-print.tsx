@@ -11,6 +11,7 @@ IFormProps
   publisher_name,
   subject,
   title,
+  subtitle,
   year_of_publication,
 }, ref) {
 
@@ -29,6 +30,11 @@ IFormProps
         <div className='mb-4 flex items-center justify-between'>
           <label className='font-bold'>Título da obra:</label>
           <span className='text-lg text-gray-700'>{title}</span>
+        </div>
+
+        <div className='mb-4 flex items-center justify-between'>
+          <label className='font-bold'>Subtítulo da obra:</label>
+          <span className='text-lg text-gray-700'>{subtitle}</span>
         </div>
 
         <div className='mb-4 flex items-center justify-between'>
