@@ -54,7 +54,7 @@ IFormProps
         </div>
 
         <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Subject:</label>
+          <label className='font-bold'>Assunto:</label>
           <span className='text-lg text-gray-700'>{subject}</span>
         </div>
 
