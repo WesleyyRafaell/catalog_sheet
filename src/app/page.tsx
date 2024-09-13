@@ -1,102 +1,164 @@
-import Image from 'next/image';
+'use client';
+
+import LayoutToPrint from '@/components/layout-to-print/layout-to-print';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { IFormProps } from '@/types/form-props';
+import { ErrorMessage } from '@hookform/error-message';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useReactToPrint } from 'react-to-print';
+
+import { formSchema } from '../schemas/form-schema';
 
 export default function Home () {
+  const [ formValues, setFormValues ] = useState<IFormProps | null>();
+  const componentRef = useRef(null);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const form = useForm<IFormProps>({
+    resolver: zodResolver(formSchema),
+  });
+
+  const { handleSubmit, register, reset, formState: { errors } } = form;
+
+  const onSubmit = async (values: IFormProps) => {
+    setFormValues(values);
+  };
+
+  const resetFields = () => {
+    reset();
+    setFormValues(null);
+  };
 
   return (
-    <div className='grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20'>
-      <main className='row-start-2 flex flex-col items-center gap-8 sm:items-start'>
-        <Image
-          className='dark:invert'
-          src='https://nextjs.org/icons/next.svg'
-          alt='Next.js logo'
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className='list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left'>
-          <li className='mb-2'>
-            Get started by editing{' '}
-            <code className='rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]'>
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className='flex items-center justify-center font-[family-name:var(--font-geist-sans)] sm:py-11'>
+      <main className='w-[500px]'>
+        <Card className='w-full max-w-md'>
+          {!formValues?.name && (
+            <>
+              <CardHeader>
+                <CardTitle>Gerador de ficha catalográfica</CardTitle>
+              </CardHeader>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <CardContent>
+                  <div className='grid w-full items-center gap-6'>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='name'>Nome do autor</Label>
+                      <Input
+                        id='name'
+                        type='text'
+                        {...register('name')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='name'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='title'>Título da obra</Label>
+                      <Input
+                        id='title'
+                        type='text'
+                        {...register('title')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='title'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='edition'>Edição</Label>
+                      <Input
+                        id='edition'
+                        type='text'
+                        {...register('edition')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='edition'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='place_of_publication'>Local de publicação</Label>
+                      <Input
+                        id='place_of_publication'
+                        type='text'
+                        {...register('place_of_publication')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='place_of_publication'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='publisher_name'>Nome da editora</Label>
+                      <Input
+                        id='publisher_name'
+                        type='text'
+                        {...register('publisher_name')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='publisher_name'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='year_of_publication'>Ano de publicação</Label>
+                      <Input
+                        id='year_of_publication'
+                        type='text'
+                        {...register('year_of_publication')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='year_of_publication'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                    <div className='flex flex-col space-y-1.5'>
+                      <Label htmlFor='subject'>Assuntos (Separados por virgula)</Label>
+                      <Input
+                        id='subject'
+                        type='text'
+                        {...register('subject')}
+                      />
+                      <ErrorMessage
+                        errors={errors}
+                        name='subject'
+                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className='w-full' type='submit'>Gerar PDF</Button>
+                </CardFooter>
+              </form>
+            </>
+          )}
 
-        <div className='flex flex-col items-center gap-4 sm:flex-row'>
-          <a
-            className='flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] sm:h-12 sm:px-5 sm:text-base dark:hover:bg-[#ccc]'
-            href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Image
-              className='dark:invert'
-              src='https://nextjs.org/icons/vercel.svg'
-              alt='Vercel logomark'
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className='flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base dark:border-white/[.145] dark:hover:bg-[#1a1a1a]'
-            href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            Read our docs
-          </a>
-        </div>
+          {formValues?.name && (
+            <>
+              <CardHeader>
+                <CardTitle>PDF Gerado</CardTitle>
+                <CardDescription>Baixe agora mesmo sua ficha ou gere uma nova.</CardDescription>
+              </CardHeader>
+              <CardContent className='flex flex-col gap-4'>
+                <Button className='w-full' type='button' onClick={handlePrint}>Abrir PDF</Button>
+                <Button className='w-full' type='button' variant='outline' onClick={resetFields}>Gerar nova ficha</Button>
+                <div className='hidden'>
+                  <LayoutToPrint {...formValues} ref={componentRef} />
+                </div>
+              </CardContent>
+            </>
+          )}
+        </Card>
       </main>
-      <footer className='row-start-3 flex flex-wrap items-center justify-center gap-6'>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/file.svg'
-            alt='File icon'
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/window.svg'
-            alt='Window icon'
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className='flex items-center gap-2 hover:underline hover:underline-offset-4'
-          href='https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <Image
-            aria-hidden
-            src='https://nextjs.org/icons/globe.svg'
-            alt='Globe icon'
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
