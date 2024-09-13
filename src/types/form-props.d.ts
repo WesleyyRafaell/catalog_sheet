@@ -7,4 +7,5 @@ export interface IFormProps {
   publisher_name?: string;
   year_of_publication?: string;
   subject?: string;
+  cdu?: string;
 }

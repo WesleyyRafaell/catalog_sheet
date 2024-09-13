@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IFormProps } from '@/types/form-props';
+import { getCDUCode } from '@/utils/get-cdu-code';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRef, useState } from 'react';
@@ -29,6 +30,8 @@ export default function Home () {
   const { handleSubmit, register, reset, formState: { errors } } = form;
 
   const onSubmit = async (values: IFormProps) => {
+    const CduCode = getCDUCode(values.subject as string);
+    values.cdu = CduCode;
     setFormValues(values);
   };
 

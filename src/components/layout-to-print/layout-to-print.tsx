@@ -13,6 +13,7 @@ IFormProps
   title,
   subtitle,
   year_of_publication,
+  cdu,
 }, ref) {
 
   return (
@@ -60,6 +61,10 @@ IFormProps
         <div className='mb-4 flex items-center justify-between'>
           <label className='font-bold'>Ano de publicação:</label>
           <span className='text-lg text-gray-700'>{year_of_publication}</span>
+        </div>
+        <div className='mb-4 flex items-center justify-between'>
+          <label className='font-bold'>CDU:</label>
+          <span className='text-lg text-gray-700'>{cdu}</span>
         </div>
       </div>
     </div>
