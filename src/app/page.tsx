@@ -151,7 +151,7 @@ export default function Home () {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button className='w-full' type='submit'>Gerar PDF</Button>
+                  <Button className='w-full bg-[#040454] text-[#ffffff] hover:bg-[#040454]' type='submit'>Gerar PDF</Button>
                 </CardFooter>
               </form>
             </>
@@ -164,7 +164,9 @@ export default function Home () {
                 <CardDescription>Baixe agora mesmo sua ficha ou gere uma nova.</CardDescription>
               </CardHeader>
               <CardContent className='flex flex-col gap-4'>
-                <Button className='w-full' type='button' onClick={handlePrint}>Abrir PDF</Button>
+                <Button className='w-full bg-[#040454] text-[#ffffff] hover:bg-[#040454]' type='button' onClick={handlePrint}>
+                  Abrir PDF
+                </Button>
                 <Button className='w-full' type='button' variant='outline' onClick={resetFields}>Gerar nova ficha</Button>
                 <div className='hidden'>
                   <LayoutToPrint {...formValues} ref={componentRef} />
