@@ -6,14 +6,10 @@ HTMLDivElement,
 IFormProps
 >(function LayoutToPrint ({
   name,
-  edition,
   place_of_publication,
-  publisher_name,
-  subject,
   title,
   subtitle,
   year_of_publication,
-  cdu,
 }, ref) {
 
   return (
@@ -39,32 +35,13 @@ IFormProps
         </div>
 
         <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Edição:</label>
-          <span className='text-lg text-gray-700'>{edition}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
           <label className='font-bold'>Local de publicação:</label>
           <span className='text-lg text-gray-700'>{place_of_publication}</span>
         </div>
 
         <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Nome da editora:</label>
-          <span className='text-lg text-gray-700'>{publisher_name}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Assunto:</label>
-          <span className='text-lg text-gray-700'>{subject}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
           <label className='font-bold'>Ano de publicação:</label>
           <span className='text-lg text-gray-700'>{year_of_publication}</span>
-        </div>
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>CDU:</label>
-          <span className='text-lg text-gray-700'>{cdu}</span>
         </div>
       </div>
     </div>
