@@ -1,14 +1,24 @@
 'use client';
 
+import FieldsGroup from '@/components/fields-group/fields-group';
 import LayoutToPrint from '@/components/layout-to-print/layout-to-print';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { formMock } from '@/mocks/form-mock';
 import { IFormProps } from '@/types/form-props';
 import { getCDUCode } from '@/utils/get-cdu-code';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { StarFilledIcon } from '@radix-ui/react-icons';
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
@@ -42,115 +52,108 @@ export default function Home () {
 
   return (
     <div className='flex items-center justify-center font-[family-name:var(--font-geist-sans)] sm:py-11'>
-      <main className='w-[500px]'>
-        <Card className='w-full max-w-md'>
+      <main className='w-[800px]'>
+        <Card className='w-full'>
           {!formValues?.name && (
             <>
-              <CardHeader>
-                <CardTitle>Gerador de ficha catalográfica</CardTitle>
+              <CardHeader className='mb-7 bg-[#465487] text-center'>
+                <CardTitle className='text-white'>Gerador de ficha catalográfica</CardTitle>
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <CardContent>
+                <CardContent className='p-0'>
                   <div className='grid w-full items-center gap-6'>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='name'>Nome do autor</Label>
-                      <Input
-                        id='name'
-                        type='text'
-                        {...register('name')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='name'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='title'>Título da obra</Label>
-                      <Input
-                        id='title'
-                        type='text'
-                        {...register('title')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='title'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='subtitle'>Subtítulo da obra</Label>
-                      <Input
-                        id='subtitle'
-                        type='text'
-                        {...register('subtitle')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='title'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='edition'>Edição</Label>
-                      <Input
-                        id='edition'
-                        type='text'
-                        {...register('edition')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='edition'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='place_of_publication'>Local de publicação</Label>
-                      <Input
-                        id='place_of_publication'
-                        type='text'
-                        {...register('place_of_publication')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='place_of_publication'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='publisher_name'>Nome da editora</Label>
-                      <Input
-                        id='publisher_name'
-                        type='text'
-                        {...register('publisher_name')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='publisher_name'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='year_of_publication'>Ano de publicação</Label>
-                      <Input
-                        id='year_of_publication'
-                        type='text'
-                        {...register('year_of_publication')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='year_of_publication'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
-                    <div className='flex flex-col space-y-1.5'>
-                      <Label htmlFor='subject'>Assuntos (Separados por virgula)</Label>
-                      <Input
-                        id='subject'
-                        type='text'
-                        {...register('subject')}
-                      />
-                      <ErrorMessage
-                        errors={errors}
-                        name='subject'
-                        render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
-                    </div>
+                    {formMock.map(item => {
+                      return (
+                        <FieldsGroup key={item.boxTitle} title={item.boxTitle}>
+                          {item.field.map(itemField => {
+                            return (
+                              <>
+                                {itemField.isSelect && (
+                                  <div className='flex items-center gap-3'>
+                                    <div className='flex items-center gap-2'>
+                                      <Label className='whitespace-nowrap' htmlFor='name'>{itemField.title}</Label>
+                                      {itemField.required && (
+                                        <StarFilledIcon width={10} color='#84ADEF'/>
+                                      )}
+                                    </div>
+                                    <Select>
+                                      <SelectTrigger>
+                                        <SelectValue placeholder='Selecione' />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {itemField.selectOptions.map(selectOption => (
+                                          <SelectItem key={selectOption.value} value={selectOption.value}>
+                                            {selectOption.text}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                    <ErrorMessage
+                                      errors={errors}
+                                      name='name'
+                                      render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                                  </div>
+                                )}
+
+                                {itemField?.subFields?.length > 0 && (
+                                  <div className='flex'>
+                                    <p className='min-w-40'>{itemField?.title}</p>
+                                    <div className='flex w-full flex-col gap-2'>
+                                      {itemField?.subFields?.map(subFieldsItem => (
+                                        <div key={subFieldsItem.id} className='flex items-center gap-3'>
+                                          <div className='flex items-center gap-2'>
+                                            <Label htmlFor='subject'>{subFieldsItem.title}</Label>
+                                            {subFieldsItem.required && (
+                                              <StarFilledIcon width={10} color='#84ADEF'/>
+                                            )}
+                                            {!subFieldsItem.required && (
+                                              <StarFilledIcon width={10} color='#fff'/>
+                                            )}
+                                          </div>
+                                          <Input
+                                            id='subject'
+                                            type='text'
+                                            {...register('subject')}
+                                          />
+                                          <ErrorMessage
+                                            errors={errors}
+                                            name='subject'
+                                            render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {!itemField.isSelect && !itemField?.subFields?.length && (
+                                  <div key={itemField.id} className='flex items-center gap-3'>
+                                    <div className='flex items-center gap-2'>
+                                      <Label className='whitespace-nowrap' htmlFor='title'>{itemField.title}</Label>
+                                      {itemField.required && (
+                                        <StarFilledIcon width={10} color='#84ADEF'/>
+                                      )}
+                                    </div>
+                                    <Input
+                                      className='mt-0'
+                                      id='title'
+                                      type='text'
+                                      {...register('title')}
+                                    />
+                                    <ErrorMessage
+                                      errors={errors}
+                                      name='title'
+                                      render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })}
+                        </FieldsGroup>
+                      );
+                    })}
                   </div>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className='mt-5'>
                   <Button className='w-full bg-[#040454] text-[#ffffff] hover:bg-[#040454]' type='submit'>Gerar PDF</Button>
                 </CardFooter>
               </form>
