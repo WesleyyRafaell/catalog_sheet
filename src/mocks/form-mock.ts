@@ -1,4 +1,7 @@
-export const formMock = [
+import { FormIdsNameEnum } from '@/enum/form-ids-name-enum';
+import { IFormStructureProps } from '@/types/form-props';
+
+export const formMock: IFormStructureProps[] = [
   {
     boxTitle: '',
     field: [
@@ -11,7 +14,7 @@ export const formMock = [
           { value: 'monografia', text: 'Monografia' },
           { value: 'livro', text: 'Livro' },
         ],
-        id: 'name',
+        id: FormIdsNameEnum.nature_of_work,
         subFields: [],
       },
       {
@@ -19,7 +22,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'title',
+        id: FormIdsNameEnum.title,
         subFields: [],
       },
       {
@@ -27,7 +30,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'subtitle',
+        id: FormIdsNameEnum.subtitle,
         subFields: [],
       },
     ],
@@ -40,7 +43,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.name,
         subFields: [],
       },
       {
@@ -48,7 +51,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.last_name,
         subFields: [],
       },
     ],
@@ -61,7 +64,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.author_name2,
         subFields: [],
       },
       {
@@ -69,7 +72,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.author_last_name2,
         subFields: [],
       },
       {
@@ -77,7 +80,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.author_name3,
         subFields: [],
       },
       {
@@ -85,7 +88,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.author_last_name3,
         subFields: [],
       },
     ],
@@ -98,7 +101,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.Advisor_name,
         subFields: [],
       },
       {
@@ -106,7 +109,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.Advisor_last_name,
         subFields: [],
       },
       {
@@ -114,7 +117,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.name_of_coadvisor1,
         subFields: [],
       },
       {
@@ -122,7 +125,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.last_name_of_coadvisor1,
         subFields: [],
       },
       {
@@ -130,7 +133,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.name_of_coadvisor2,
         subFields: [],
       },
       {
@@ -138,7 +141,7 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.last_name_of_coadvisor2,
         subFields: [],
       },
     ],
@@ -151,7 +154,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'place_of_publication',
+        id: FormIdsNameEnum.place_of_publication,
         subFields: [],
       },
       {
@@ -159,7 +162,7 @@ export const formMock = [
         required: true,
         isSelect: false,
         selectOptions: [],
-        id: 'year_of_publication',
+        id: FormIdsNameEnum.year_of_publication,
         subFields: [],
       },
       {
@@ -167,42 +170,42 @@ export const formMock = [
         required: false,
         isSelect: false,
         selectOptions: [],
-        id: 'name',
+        id: FormIdsNameEnum.keywords1,
         subFields: [
           {
             title: '1:',
             required: true,
             isSelect: false,
             selectOptions: [],
-            id: 'name',
+            id: FormIdsNameEnum.keywords1,
           },
           {
             title: '2:',
             required: true,
             isSelect: false,
             selectOptions: [],
-            id: 'name',
+            id: FormIdsNameEnum.keywords2,
           },
           {
             title: '3:',
             required: true,
             isSelect: false,
             selectOptions: [],
-            id: 'name',
+            id: FormIdsNameEnum.keywords3,
           },
           {
             title: '4:',
             required: false,
             isSelect: false,
             selectOptions: [],
-            id: 'name',
+            id: FormIdsNameEnum.keywords4,
           },
           {
             title: '5:',
             required: false,
             isSelect: false,
             selectOptions: [],
-            id: 'name',
+            id: FormIdsNameEnum.keywords5,
           },
         ],
       },

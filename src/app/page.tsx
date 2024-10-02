@@ -13,14 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { FormIdsNameEnum } from '@/enum/form-ids-name-enum';
 import { formMock } from '@/mocks/form-mock';
 import { IFormProps } from '@/types/form-props';
-import { getCDUCode } from '@/utils/get-cdu-code';
 import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { StarFilledIcon } from '@radix-ui/react-icons';
 import { useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useReactToPrint } from 'react-to-print';
 
 import { formSchema } from '../schemas/form-schema';
@@ -37,11 +37,9 @@ export default function Home () {
     resolver: zodResolver(formSchema),
   });
 
-  const { handleSubmit, register, reset, formState: { errors } } = form;
+  const { handleSubmit, register, reset, formState: { errors }, control } = form;
 
   const onSubmit = async (values: IFormProps) => {
-    const CduCode = getCDUCode(values.subject as string);
-    values.cdu = CduCode;
     setFormValues(values);
   };
 
@@ -52,7 +50,7 @@ export default function Home () {
 
   return (
     <div className='flex items-center justify-center font-[family-name:var(--font-geist-sans)] sm:py-11'>
-      <main className='w-[800px]'>
+      <main className='w-full md:w-[800px]'>
         <Card className='w-full'>
           {!formValues?.name && (
             <>
@@ -61,63 +59,74 @@ export default function Home () {
               </CardHeader>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <CardContent className='p-0'>
-                  <div className='grid w-full items-center gap-6'>
+                  <div className='flex w-full flex-col gap-6'>
                     {formMock.map(item => {
                       return (
                         <FieldsGroup key={item.boxTitle} title={item.boxTitle}>
                           {item.field.map(itemField => {
+
                             return (
                               <>
                                 {itemField.isSelect && (
-                                  <div className='flex items-center gap-3'>
-                                    <div className='flex items-center gap-2'>
-                                      <Label className='whitespace-nowrap' htmlFor='name'>{itemField.title}</Label>
-                                      {itemField.required && (
-                                        <StarFilledIcon width={10} color='#84ADEF'/>
-                                      )}
+                                  <div className='flex flex-col gap-1'>
+                                    <div className='flex flex-col gap-3 md:flex-row md:items-center'>
+                                      <div className='flex items-center gap-2'>
+                                        <Label className='whitespace-nowrap' htmlFor='name'>{itemField.title}</Label>
+                                        {itemField.required && (
+                                          <StarFilledIcon width={10} color='#84ADEF'/>
+                                        )}
+                                      </div>
+                                      <Controller
+                                        control={control}
+                                        name={itemField.id as unknown as FormIdsNameEnum}
+                                        render={({ field }) => (
+                                          <Select onValueChange={field.onChange} {...field}>
+                                            <SelectTrigger>
+                                              <SelectValue placeholder='Selecione' />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              {itemField.selectOptions.map(selectOption => (
+                                                <SelectItem key={selectOption.value} value={selectOption.value}>
+                                                  {selectOption.text}
+                                                </SelectItem>
+                                              ))}
+                                            </SelectContent>
+                                          </Select>
+                                        )}>
+                                      </Controller>
                                     </div>
-                                    <Select>
-                                      <SelectTrigger>
-                                        <SelectValue placeholder='Selecione' />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {itemField.selectOptions.map(selectOption => (
-                                          <SelectItem key={selectOption.value} value={selectOption.value}>
-                                            {selectOption.text}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
                                     <ErrorMessage
                                       errors={errors}
-                                      name='name'
+                                      name={itemField.id as unknown as FormIdsNameEnum}
                                       render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
                                   </div>
                                 )}
 
                                 {itemField?.subFields?.length > 0 && (
-                                  <div className='flex'>
+                                  <div className='flex flex-col gap-3 md:flex-row md:gap-0'>
                                     <p className='min-w-40'>{itemField?.title}</p>
                                     <div className='flex w-full flex-col gap-2'>
                                       {itemField?.subFields?.map(subFieldsItem => (
-                                        <div key={subFieldsItem.id} className='flex items-center gap-3'>
-                                          <div className='flex items-center gap-2'>
-                                            <Label htmlFor='subject'>{subFieldsItem.title}</Label>
-                                            {subFieldsItem.required && (
-                                              <StarFilledIcon width={10} color='#84ADEF'/>
-                                            )}
-                                            {!subFieldsItem.required && (
-                                              <StarFilledIcon width={10} color='#fff'/>
-                                            )}
+                                        <div key={subFieldsItem.id} className='flex flex-col gap-1'>
+                                          <div className='flex  gap-3'>
+                                            <div className='flex items-center gap-2'>
+                                              <Label htmlFor={subFieldsItem.id}>{subFieldsItem.title}</Label>
+                                              {subFieldsItem.required && (
+                                                <StarFilledIcon width={10} color='#84ADEF'/>
+                                              )}
+                                              {!subFieldsItem.required && (
+                                                <StarFilledIcon width={10} color='#fff'/>
+                                              )}
+                                            </div>
+                                            <Input
+                                              id={subFieldsItem.id }
+                                              type='text'
+                                              {...register(`${subFieldsItem.id as unknown as FormIdsNameEnum}`)}
+                                            />
                                           </div>
-                                          <Input
-                                            id='subject'
-                                            type='text'
-                                            {...register('subject')}
-                                          />
                                           <ErrorMessage
                                             errors={errors}
-                                            name='subject'
+                                            name={subFieldsItem.id as unknown as FormIdsNameEnum}
                                             render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
                                         </div>
                                       ))}
@@ -126,22 +135,24 @@ export default function Home () {
                                 )}
 
                                 {!itemField.isSelect && !itemField?.subFields?.length && (
-                                  <div key={itemField.id} className='flex items-center gap-3'>
-                                    <div className='flex items-center gap-2'>
-                                      <Label className='whitespace-nowrap' htmlFor='title'>{itemField.title}</Label>
-                                      {itemField.required && (
-                                        <StarFilledIcon width={10} color='#84ADEF'/>
-                                      )}
+                                  <div key={itemField.title} className='flex flex-col gap-1'>
+                                    <div className='flex flex-col gap-3 md:flex-row md:items-center'>
+                                      <div className='flex items-center gap-2'>
+                                        <Label className='whitespace-nowrap' htmlFor={itemField.id}>{itemField.title}</Label>
+                                        {itemField.required && (
+                                          <StarFilledIcon width={10} color='#84ADEF'/>
+                                        )}
+                                      </div>
+                                      <Input
+                                        className='mt-0'
+                                        id={itemField.id}
+                                        type='text'
+                                        {...register(`${itemField.id as unknown as FormIdsNameEnum}`)}
+                                      />
                                     </div>
-                                    <Input
-                                      className='mt-0'
-                                      id='title'
-                                      type='text'
-                                      {...register('title')}
-                                    />
                                     <ErrorMessage
                                       errors={errors}
-                                      name='title'
+                                      name={itemField.id as unknown as FormIdsNameEnum}
                                       render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
                                   </div>
                                 )}

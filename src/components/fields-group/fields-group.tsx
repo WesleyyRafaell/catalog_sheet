@@ -13,7 +13,7 @@ const FieldsGroup = ({ children, title }: IFieldsGroupProps) => {
           <p className='text-sm font-semibold uppercase text-[#404E82]'>{title}</p>
         </div>
       )}
-      <div className='flex flex-col gap-4 px-20'>
+      <div className='flex flex-col gap-4 px-3 md:px-20'>
         {children}
       </div>
     </div>
