@@ -49,9 +49,9 @@ export default function Home () {
   };
 
   return (
-    <div className='flex items-center justify-center font-[family-name:var(--font-geist-sans)] sm:py-11'>
+    <div className='flex items-center justify-center bg-white font-[family-name:var(--font-geist-sans)] sm:py-11'>
       <main className='w-full md:w-[800px]'>
-        <Card className='w-full'>
+        <Card className='w-full bg-white'>
           {!formValues?.name && (
             <>
               <CardHeader className='mb-7 bg-[#465487] text-center'>
