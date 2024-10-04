@@ -18,6 +18,15 @@ export const formMock: IFormStructureProps[] = [
         subFields: [],
       },
       {
+        title: '',
+        required: false,
+        isSelect: false,
+        isRadio: true,
+        selectOptions: [],
+        id: FormIdsNameEnum.nature_of_work,
+        subFields: [],
+      },
+      {
         title: 'Título:',
         required: true,
         isSelect: false,
@@ -27,7 +36,7 @@ export const formMock: IFormStructureProps[] = [
       },
       {
         title: 'Subtítulo:',
-        required: true,
+        required: false,
         isSelect: false,
         selectOptions: [],
         id: FormIdsNameEnum.subtitle,

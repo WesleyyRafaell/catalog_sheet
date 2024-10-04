@@ -2,16 +2,17 @@ import { z } from 'zod';
 
 export const formSchema = z.object({
   nature_of_work: z.enum([ 'tcc', 'monografia', 'livro' ], { message: 'Campo obrigatório' }),
+  type_page: z.enum([ 'pages', 'sheets' ], { message: 'Campo obrigatório' }),
+  number_pages:
+      z.string().optional(),
+  number_sheets:
+      z.string().optional(),
   title:
       z.string({ required_error: 'campo obrigátorio' })
         .min(1, {
           message: 'Campo obrigátorio',
         }),
-  subtitle:
-      z.string({ required_error: 'campo obrigátorio' })
-        .min(1, {
-          message: 'Campo obrigátorio',
-        }),
+  subtitle: z.string().optional(),
   name:
       z.string({ required_error: 'campo obrigátorio' })
         .min(1, {

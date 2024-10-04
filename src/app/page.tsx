@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import {
   Select,
   SelectContent,
@@ -37,9 +38,10 @@ export default function Home () {
     resolver: zodResolver(formSchema),
   });
 
-  const { handleSubmit, register, reset, formState: { errors }, control } = form;
+  const { handleSubmit, register, reset, formState: { errors }, control, watch } = form;
 
   const onSubmit = async (values: IFormProps) => {
+    console.log('values', values);
     setFormValues(values);
   };
 
@@ -48,10 +50,13 @@ export default function Home () {
     setFormValues(null);
   };
 
+  const typePage = watch('type_page');
+
   return (
     <div className='flex items-center justify-center bg-white font-[family-name:var(--font-geist-sans)] sm:py-11'>
       <main className='w-full md:w-[800px]'>
         <Card className='w-full bg-white'>
+
           {!formValues?.name && (
             <>
               <CardHeader className='mb-7 bg-[#465487] text-center'>
@@ -67,6 +72,7 @@ export default function Home () {
 
                             return (
                               <>
+
                                 {itemField.isSelect && (
                                   <div className='flex flex-col gap-1'>
                                     <div className='flex flex-col gap-3 md:flex-row md:items-center'>
@@ -102,6 +108,67 @@ export default function Home () {
                                   </div>
                                 )}
 
+                                {itemField.isRadio && (
+                                  <div className='flex flex-col gap-4'>
+                                    <Controller
+                                      control={control}
+                                      name={'type_page'}
+                                      render={({ field }) => (
+                                        <RadioGroup onValueChange={field.onChange} {...field} className='flex gap-4' defaultValue='option-one'>
+                                          <div className='flex items-center space-x-2'>
+                                            <RadioGroupItem value='pages' id='pages' />
+                                            <Label htmlFor='pages'>Páginas</Label>
+                                          </div>
+                                          <div className='flex items-center space-x-2'>
+                                            <RadioGroupItem value='sheets' id='sheets' />
+                                            <Label htmlFor='sheets'>Folhas</Label>
+                                          </div>
+                                        </RadioGroup>
+                                      )}>
+                                    </Controller>
+                                    {typePage === 'sheets' && (
+                                      <div key={itemField.title} className='flex max-w-[190px] flex-col gap-1'>
+                                        <div className='flex flex-col gap-3 md:flex-row md:items-center'>
+                                          <div className='flex items-center gap-2'>
+                                            <Label className='whitespace-nowrap' htmlFor='number_sheets'>N° de folhas:</Label>
+                                            <StarFilledIcon width={10} color='#84ADEF'/>
+                                          </div>
+                                          <Input
+                                            className='mt-0'
+                                            id='number_sheets'
+                                            type='number'
+                                            {...register('number_sheets')}
+                                          />
+                                        </div>
+                                        <ErrorMessage
+                                          errors={errors}
+                                          name='number_sheets'
+                                          render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                                      </div>
+                                    )}
+                                    {typePage === 'pages' && (
+                                      <div key={itemField.title} className='flex max-w-[190px] flex-col gap-1'>
+                                        <div className='flex flex-col gap-3 md:flex-row md:items-center'>
+                                          <div className='flex items-center gap-2'>
+                                            <Label className='whitespace-nowrap' htmlFor='number_pages'>N° de páginas:</Label>
+                                            <StarFilledIcon width={10} color='#84ADEF'/>
+                                          </div>
+                                          <Input
+                                            className='mt-0'
+                                            id='number_pages'
+                                            type='number'
+                                            {...register('number_pages')}
+                                          />
+                                        </div>
+                                        <ErrorMessage
+                                          errors={errors}
+                                          name='number_pages'
+                                          render={({ message }) => <p className='text-[12px] text-red-800'>{message}</p>}/>
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+
                                 {itemField?.subFields?.length > 0 && (
                                   <div className='flex flex-col gap-3 md:flex-row md:gap-0'>
                                     <p className='min-w-40'>{itemField?.title}</p>
@@ -134,7 +201,7 @@ export default function Home () {
                                   </div>
                                 )}
 
-                                {!itemField.isSelect && !itemField?.subFields?.length && (
+                                {!itemField.isSelect && !itemField.isRadio && !itemField?.subFields?.length && (
                                   <div key={itemField.title} className='flex flex-col gap-1'>
                                     <div className='flex flex-col gap-3 md:flex-row md:items-center'>
                                       <div className='flex items-center gap-2'>
@@ -173,6 +240,29 @@ export default function Home () {
 
           {formValues?.name && (
             <>
+              <div className=''>
+                <p className='text-center font-medium'>Ficha gerada por meio do Sistema catalográfico com dados fornecidos pelo(a) autor(a).
+                Diretoria Integrada de Bibliotecas/CEST</p>
+                <div className='m-2 border border-gray-800 p-4'>
+                  <p className='first-letter:lowercase'>{formValues.last_name}, {formValues.name}.</p>
+                  <p className=''>{formValues.title} / {formValues.name} {formValues.last_name}. - {formValues.year_of_publication}.</p>
+                  {formValues?.number_pages && (
+                    <p className=''>{formValues.number_pages} p.</p>
+                  )}
+                  {formValues?.number_sheets && (
+                    <p className=''>{formValues.number_sheets} f.</p>
+                  )}
+                  <p className=''>Orientador(a): {formValues.Advisor_name} {formValues.Advisor_last_name}.</p>
+                  <p className=''>{formValues.nature_of_work} - {formValues.place_of_publication} {formValues.year_of_publication}.</p>
+                  <div className='flex gap-4'>
+                    <p>1. {formValues.keywords1}.</p>
+                    <p>2. {formValues.keywords2}.</p>
+                    <p>3. {formValues.keywords3}.</p>
+                    <p>4. {formValues.keywords4}.</p>
+                    <p>5. {formValues.keywords5}.</p>
+                  </div>
+                </div>
+              </div>
               <CardHeader>
                 <CardTitle>PDF Gerado</CardTitle>
                 <CardDescription>Baixe agora mesmo sua ficha ou gere uma nova.</CardDescription>
@@ -186,6 +276,7 @@ export default function Home () {
                   <LayoutToPrint {...formValues} ref={componentRef} />
                 </div>
               </CardContent>
+
             </>
           )}
         </Card>

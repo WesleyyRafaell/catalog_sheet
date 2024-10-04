@@ -1,4 +1,7 @@
 export interface IFormProps {
+  number_sheets: number;
+  number_pages: number;
+  type_page: string;
   nature_of_work: string;
   title: string;
   subtitle: string;
@@ -29,6 +32,7 @@ export interface IFormStructureProps {
     title: string;
     required: boolean;
     isSelect: boolean;
+    isRadio?: boolean;
     selectOptions: {
       value: string;
       text: string;
