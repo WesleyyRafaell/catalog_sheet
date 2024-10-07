@@ -41,7 +41,6 @@ export default function Home () {
   const { handleSubmit, register, reset, formState: { errors }, control, watch } = form;
 
   const onSubmit = async (values: IFormProps) => {
-    console.log('values', values);
     setFormValues(values);
   };
 
@@ -240,29 +239,6 @@ export default function Home () {
 
           {formValues?.name && (
             <>
-              <div className=''>
-                <p className='text-center font-medium'>Ficha gerada por meio do Sistema catalográfico com dados fornecidos pelo(a) autor(a).
-                Diretoria Integrada de Bibliotecas/CEST</p>
-                <div className='m-2 border border-gray-800 p-4'>
-                  <p className='first-letter:lowercase'>{formValues.last_name}, {formValues.name}.</p>
-                  <p className=''>{formValues.title} / {formValues.name} {formValues.last_name}. - {formValues.year_of_publication}.</p>
-                  {formValues?.number_pages && (
-                    <p className=''>{formValues.number_pages} p.</p>
-                  )}
-                  {formValues?.number_sheets && (
-                    <p className=''>{formValues.number_sheets} f.</p>
-                  )}
-                  <p className=''>Orientador(a): {formValues.Advisor_name} {formValues.Advisor_last_name}.</p>
-                  <p className=''>{formValues.nature_of_work} - {formValues.place_of_publication} {formValues.year_of_publication}.</p>
-                  <div className='flex gap-4'>
-                    <p>1. {formValues.keywords1}.</p>
-                    <p>2. {formValues.keywords2}.</p>
-                    <p>3. {formValues.keywords3}.</p>
-                    <p>4. {formValues.keywords4}.</p>
-                    <p>5. {formValues.keywords5}.</p>
-                  </div>
-                </div>
-              </div>
               <CardHeader>
                 <CardTitle>PDF Gerado</CardTitle>
                 <CardDescription>Baixe agora mesmo sua ficha ou gere uma nova.</CardDescription>
@@ -276,7 +252,6 @@ export default function Home () {
                   <LayoutToPrint {...formValues} ref={componentRef} />
                 </div>
               </CardContent>
-
             </>
           )}
         </Card>

@@ -1,3 +1,4 @@
+import { getDocumentType } from '@/enum/nature_of_work';
 import { IFormProps } from '@/types/form-props';
 import { forwardRef } from 'react';
 
@@ -5,6 +6,26 @@ const LayoutToPrint = forwardRef<
 HTMLDivElement,
 IFormProps
 >(function LayoutToPrint ({
+  Advisor_last_name,
+  Advisor_name,
+  author_last_name2,
+  author_last_name3,
+  author_name2,
+  author_name3,
+  keywords1,
+  keywords2,
+  keywords3,
+  keywords4,
+  keywords5,
+  last_name,
+  last_name_of_coadvisor1,
+  last_name_of_coadvisor2,
+  name_of_coadvisor1,
+  name_of_coadvisor2,
+  nature_of_work,
+  number_pages,
+  number_sheets,
+  type_page,
   name,
   place_of_publication,
   title,
@@ -15,33 +36,55 @@ IFormProps
   return (
     <div ref={ref}>
       <div className=' mx-auto w-4/5 max-w-3xl border border-gray-300 bg-white p-6 shadow-lg print:w-full print:border-none print:shadow-none'>
-        <div className='mb-6 border-b-2 border-gray-800 pb-4 text-center'>
-          <h1 className='text-2xl font-bold'>Ficha catalográfica</h1>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Nome do autor:</label>
-          <span className='text-lg text-gray-700'>{name}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Título da obra:</label>
-          <span className='text-lg text-gray-700'>{title}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Subtítulo da obra:</label>
-          <span className='text-lg text-gray-700'>{subtitle}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Local de publicação:</label>
-          <span className='text-lg text-gray-700'>{place_of_publication}</span>
-        </div>
-
-        <div className='mb-4 flex items-center justify-between'>
-          <label className='font-bold'>Ano de publicação:</label>
-          <span className='text-lg text-gray-700'>{year_of_publication}</span>
+        <div className=''>
+          <p className='text-center font-serif font-medium'>Ficha gerada por meio do Sistema catalográfico com dados fornecidos pelo(a) autor(a).
+                Diretoria Integrada de Bibliotecas/CEST</p>
+          <div className='m-2 border border-gray-800 p-4'>
+            <p className='font-serif first-letter:lowercase'>{last_name}, {name}.</p>
+            <div className='mb-3'>
+              <p className='font-serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{title} / {name} {last_name}. - {year_of_publication}.</p>
+              {number_pages && (
+                <p className='font-serif'>{number_pages} p.</p>
+              )}
+              {number_sheets && (
+                <p className='font-serif'>{number_sheets} f.</p>
+              )}
+            </div>
+            <div className='mb-3'>
+              <p className='font-serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orientador(a): {Advisor_name} {Advisor_last_name}.</p>
+              <p className='font-serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{getDocumentType(nature_of_work)} - {place_of_publication} {year_of_publication}.</p>
+            </div>
+            <div className='flex flex-wrap'>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.</p>
+                <p className='font-serif'>{keywords1}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>2.</p>
+                <p className='font-serif'>{keywords2}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>3.</p>
+                <p className='font-serif'>{keywords3}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>4.</p>
+                <p className='font-serif'>{keywords4}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>5.</p>
+                <p className='font-serif'>{keywords5}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>I.</p>
+                <p className='font-serif'>{Advisor_last_name}, {Advisor_name}.</p>
+              </div>
+              <div className='mr-3 flex gap-4'>
+                <p className='font-serif'>II.</p>
+                <p className='font-serif'>Título.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
